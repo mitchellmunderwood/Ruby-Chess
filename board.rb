@@ -1,6 +1,8 @@
+require 'byebug'
+
 class Board
   def initialize
-    @rows = setup_board
+    setup_board
   end
 
   def move_piece(start_pos, end_pos)
@@ -22,37 +24,37 @@ class Board
   end
 
   def setup_board
-    rows = Array.new(8) {Array.new(8,0)}
+    @rows = Array.new(8) {Array.new(8, "nil")}
     #setup black pieces
-    setup_board_pawns(rows,1,"black")
+    setup_board_pawns(1,"black")
     black_row = ["C","B","Kn","Q","K","Kn","B","C"]
-    setup_board_pieces(rows,0, black_row,"black")
+    setup_board_pieces(0, black_row,"black")
     #setup white pieces
-    setup_board_pawns(rows,6,"white")
+    setup_board_pawns(6,"white")
     white_row = ["C","B","Kn","K","Q","Kn","B","C"]
-    setup_board_pieces(rows,7, white_row,"white")
+    setup_board_pieces(7, white_row,"white")
   end
 
 
-  def setup_board_pawns(rows, row_num, color)
-    rows[row_num].each_index do |index|
-      rows[row_num,index] = Piece.new("P",[row_num,index],color)
+  def setup_board_pawns(row_num, color)
+    @rows[row_num].each_index do |index|
+      self[row_num,index] = Piece.new("P",[row_num,index],color)
     end
   end
 
-  def setup_board_pieces(rows, row_num, pieces ,color)
-    rows[row_num].each_index do |index|
-      rows[row_num,index] = Piece.new(pieces[index],[row_num,index],color)
+  def setup_board_pieces(row_num, pieces, color)
+    @rows[row_num].each_index do |index|
+      self[row_num, index] = Piece.new(pieces[index],[row_num,index],color)
     end
   end
 
 end
 
 class Piece
-  def initialize(name, color,position)
+  def initialize(name, position, color)
     @name = name
-    @color = color
     @pos = position
+    @color = color
   end
 end
 
