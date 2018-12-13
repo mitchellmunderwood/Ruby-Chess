@@ -1,5 +1,7 @@
 load 'board.rb'
 load 'cursor.rb'
+load 'pieces.rb'
+load 'null.rb'
 require 'colorize'
 
 SYMBOL_MAP = {

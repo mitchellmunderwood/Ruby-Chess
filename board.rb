@@ -66,23 +66,3 @@ class Board
       end
   end
 end
-
-class Piece
-  attr_reader :name, :pos, :color
-
-  def initialize(name, pos, color)
-    @name = name
-    @pos = pos
-    @color = color
-  end
-
-  def change_pos(pos)
-    @pos = pos
-  end
-end
-
-class NullPiece < Piece
-  def initialize(name, pos, color)
-    super
-  end
-end
