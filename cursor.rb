@@ -44,7 +44,7 @@ class Cursor
     handle_key(key)
   end
 
-  private
+
 
   def read_char
     STDIN.echo = false
@@ -80,8 +80,26 @@ class Cursor
   end
 
   def handle_key(key)
+    case key
+    when :return, :space
+      @cursor_pos
+    when :left, :right, :up, :down
+      diff = MOVES[key]
+      new_pos = [@cursor_pos[0]+diff[0], @cursor_pos[1] + diff[1]]
+      update_pos(diff) if Board.valid_pos?(new_pos)
+      nil
+    when :ctrl_c
+      Process.exit(0)
+    end
+
   end
 
+#handle_key(key) method. Use a case statement that switches on the value of key. Depending on the key, #handle_key(key) will a) return the @cursor_pos (in case of :return or :space), b) call #update_pos with the appropriate movement difference from MOVES and return nil (in case of :left, :right, :up, and :down), or c) exit from the terminal process (in case of :ctrl_c). Later we will use our Player and Game classes to handle the movement of pieces.
+
   def update_pos(diff)
+    dx,dy = diff
+    x,y = @cursor_pos
+    @cursor_pos = [x+dx,y+dy]
   end
+
 end

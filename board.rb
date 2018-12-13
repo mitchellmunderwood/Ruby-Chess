@@ -7,6 +7,11 @@ class Board
     setup_board
   end
 
+  def self.valid_pos(pos)
+    x,y = pos
+    x.between?(0,7) && y.between?(0,7) ? true : false
+  end
+
   def move_piece(start_pos, end_pos)
     start_row, start_col = start_pos
     end_row, end_col = end_pos

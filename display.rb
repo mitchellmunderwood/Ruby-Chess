@@ -16,14 +16,14 @@ SYMBOL_MAP = {
 class Display
   attr_reader :board, :cursor
 
-  def initialize
-    @board = Board.new
+  def initialize(board)
+    @board = board
     @cursor = Cursor.new([0,0], board)
   end
 
-  #render a static board with pieces and colors
   #render a dynamic board with cursor movement and updates
   #render a dynamic board with cursor constraints
+
 
   def render
     @board.rows.each_index do |row_ind|
@@ -35,10 +35,12 @@ class Display
         # set the symbol for the colorize method
         (row_ind + square_ind) % 2 == 0 ? back_color = :blue : back_color = :red
         # #render time
+        back_color = :green if [row_ind,square_ind] == @cursor.cursor_pos
         print piece_sym.colorize(:color => piece_color, :background => back_color)
       end
       print "\n"
     end
+    return nil 
   end
 
 end
