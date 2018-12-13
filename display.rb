@@ -2,14 +2,24 @@ load 'board.rb'
 load 'cursor.rb'
 require 'colorize'
 
+# SYMBOL_MAP = {
+  # "Pawn" => ['♟','♙'],
+  # "Castle" => ['♜','♖'],
+#   "Bishop" => ['♝','♗'],
+#   "Knight" => ['♞','♘'],
+#   "Queen" => ['♛','♕'],
+#   "King" => ['♚','♔'],
+#   "Null" => [' ',' ']
+# }
+
 SYMBOL_MAP = {
-  "Pawn" => ['♟','♙'],
-  "Castle" => ['♜','♖'],
-  "Bishop" => ['♝','♗'],
-  "Knight" => ['♞','♘'],
-  "Queen" => ['♛','♕'],
-  "King" => ['♚','♔'],
-  "nil" => [' ',' ']
+  "Pawn" => ['P','P'],
+  "Castle" => ['C','C'],
+  "Bishop" => ['B','B'],
+  "Knight" => ['K','K'],
+  "Queen" => ['Q','Q'],
+  "King" => ['Ki','Ki'],
+  "Null" => [' ',' ']
 }
 
 
@@ -26,17 +36,23 @@ class Display
   #render a dynamic board with cursor constraints
 
   def render
-    @board.each_index do |row_ind|
-      row.each_index do |square_ind|
+    @board.rows.each_index do |row_ind|
+      @board.rows[row_ind].each_index do |square_ind|
+        #get the right char from the symbol map
         piece = @board[row_ind, square_ind]
         piece_color = piece.color == "black" ? 0 : 1
         piece_sym = SYMBOL_MAP[piece.name][piece_color]
-
-        row_ind + square_ind % 2 == 0 ? back_color = :blue : back_color = :red
-
-
+        # set the symbol for the colorize method
+        back_color = nil 
+        (row_ind + square_ind) % 2 == 0 ? back_color = :blue : back_color = :red
+        # #render time
+        p piece_sym.colorize(:color => :green ,:background => :red)
+      end
       puts "\n"
     end
   end
-
 end
+
+
+display = Display.new
+display.render

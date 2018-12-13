@@ -36,10 +36,10 @@ class Board
     setup_board_pieces(0, black_row,"black")
     #setup white pieces
     setup_board_pawns(6,"white")
-    white_row = ["Castle","Bishop","Knight","King","Queen","Knigth","Bishop","Castle"]
+    white_row = ["Castle","Bishop","Knight","King","Queen","Knight","Bishop","Castle"]
     setup_board_pieces(7, white_row,"white")
     #setup null pieces
-    (2..5).each do { |row| setup_board_nullpieces(row) }
+    (2..5).each { |row| setup_board_nullpieces(row) }
   end
 
 
@@ -57,12 +57,14 @@ class Board
 
   def setup_board_nullpieces(row_num)
       @rows[row_num].each_index do |index|
-        self[row_num, index] = NullPiece.new("Null",[row_num,index])
+        self[row_num, index] = NullPiece.new("Null",[row_num,index], 'none')
       end
   end
 end
 
 class Piece
+  attr_reader :name, :pos, :color
+
   def initialize(name, pos, color)
     @name = name
     @pos = pos
@@ -75,8 +77,7 @@ class Piece
 end
 
 class NullPiece < Piece
-  def initialize(name, pos)
-    @name = name
-    @pos = pos
+  def initialize(name, pos, color)
+    super
   end
 end
