@@ -2,24 +2,14 @@ load 'board.rb'
 load 'cursor.rb'
 require 'colorize'
 
-# SYMBOL_MAP = {
-  # "Pawn" => ['♟','♙'],
-  # "Castle" => ['♜','♖'],
-#   "Bishop" => ['♝','♗'],
-#   "Knight" => ['♞','♘'],
-#   "Queen" => ['♛','♕'],
-#   "King" => ['♚','♔'],
-#   "Null" => [' ',' ']
-# }
-
 SYMBOL_MAP = {
-  "Pawn" => ['P','P'],
-  "Castle" => ['C','C'],
-  "Bishop" => ['B','B'],
-  "Knight" => ['K','K'],
-  "Queen" => ['Q','Q'],
-  "King" => ['Ki','Ki'],
-  "Null" => [' ',' ']
+  "Pawn" => ' ♟ ',
+  "Castle" => ' ♜ ',
+  "Bishop" => ' ♝ ',
+  "Knight" => ' ♞ ',
+  "Queen" => ' ♛ ',
+  "King" => ' ♚ ',
+  "Null" => '   '
 }
 
 
@@ -40,19 +30,15 @@ class Display
       @board.rows[row_ind].each_index do |square_ind|
         #get the right char from the symbol map
         piece = @board[row_ind, square_ind]
-        piece_color = piece.color == "black" ? 0 : 1
-        piece_sym = SYMBOL_MAP[piece.name][piece_color]
+        piece_color = piece.color == "black" ? :black : :white
+        piece_sym = SYMBOL_MAP[piece.name]
         # set the symbol for the colorize method
-        back_color = nil 
         (row_ind + square_ind) % 2 == 0 ? back_color = :blue : back_color = :red
         # #render time
-        p piece_sym.colorize(:color => :green ,:background => :red)
+        print piece_sym.colorize(:color => piece_color, :background => back_color)
       end
-      puts "\n"
+      print "\n"
     end
   end
+
 end
-
-
-display = Display.new
-display.render
