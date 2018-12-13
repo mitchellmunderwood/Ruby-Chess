@@ -1,6 +1,8 @@
 require 'byebug'
 
 class Board
+  attr_reader :rows
+
   def initialize
     setup_board
   end
