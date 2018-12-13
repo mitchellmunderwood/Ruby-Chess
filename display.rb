@@ -35,7 +35,14 @@ class Display
         # set the symbol for the colorize method
         (row_ind + square_ind) % 2 == 0 ? back_color = :blue : back_color = :red
         # #render time
-        back_color = :green if [row_ind,square_ind] == @cursor.cursor_pos
+        if [row_ind,square_ind] == @cursor.cursor_pos
+          if @cursor.selected
+            back_color = :yellow
+          else
+            back_color = :green
+          end
+        end
+
         print piece_sym.colorize(:color => piece_color, :background => back_color)
       end
       print "\n"

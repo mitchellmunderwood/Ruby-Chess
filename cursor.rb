@@ -32,11 +32,12 @@ MOVES = {
 
 class Cursor
 
-  attr_reader :cursor_pos, :board
+  attr_reader :cursor_pos, :board, :selected
 
   def initialize(cursor_pos, board)
     @cursor_pos = cursor_pos
     @board = board
+    @selected = false
   end
 
   def get_input
@@ -83,6 +84,7 @@ class Cursor
     case key
     when :return, :space
       @cursor_pos
+      @selected = true
     when :left, :right, :up, :down
       diff = MOVES[key]
       new_pos = [@cursor_pos[0]+diff[0], @cursor_pos[1] + diff[1]]
