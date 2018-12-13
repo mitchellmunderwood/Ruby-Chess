@@ -38,6 +38,8 @@ class Board
     setup_board_pawns(6,"white")
     white_row = ["Castle","Bishop","Knight","King","Queen","Knigth","Bishop","Castle"]
     setup_board_pieces(7, white_row,"white")
+    #setup null pieces
+    (2..5).each do { |row| setup_board_nullpieces(row) }
   end
 
 
@@ -53,6 +55,11 @@ class Board
     end
   end
 
+  def setup_board_nullpieces(row_num)
+      @rows[row_num].each_index do |index|
+        self[row_num, index] = NullPiece.new("Null",[row_num,index])
+      end
+  end
 end
 
 class Piece
@@ -68,4 +75,8 @@ class Piece
 end
 
 class NullPiece < Piece
+  def initialize(name, pos)
+    @name = name
+    @pos = pos
+  end
 end
