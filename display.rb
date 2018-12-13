@@ -40,7 +40,17 @@ class Display
       end
       print "\n"
     end
-    return nil 
+    return nil
   end
 
 end
+
+system "clear"
+display = Display.new(Board.new)
+display.render
+while display.cursor.cursor_pos != [7,7]
+  display.cursor.get_input
+  system "clear"
+  display.render
+end
+puts "the test is over"

@@ -7,7 +7,7 @@ class Board
     setup_board
   end
 
-  def self.valid_pos(pos)
+  def self.valid_pos?(pos)
     x,y = pos
     x.between?(0,7) && y.between?(0,7) ? true : false
   end
