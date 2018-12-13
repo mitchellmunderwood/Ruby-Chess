@@ -8,11 +8,12 @@ class Board
   def move_piece(start_pos, end_pos)
     start_row, start_col = start_pos
     end_row, end_col = end_pos
-    raise "no starting piece here" if board[start_pos] == nil
+    raise "no starting piece here" if self[start_row, start_col] == nil
     raise "can't place piece here" unless end_row.between?(0,7) && end_col.between?(0,7)
-    start_piece = @rows[start_pos]
-    @rows[end_pos] = start_piece
-    @rows[start_pos] = nil
+    start_piece = self[start_row, start_col]
+    self[end_row, end_col] = start_piece
+    self[start_row, start_col] = "nil"
+    start_piece.change_pos(end_pos)
   end
 
   def [](row,column)
@@ -23,22 +24,24 @@ class Board
     @rows[row][column] = value
   end
 
+  private
+
   def setup_board
     @rows = Array.new(8) {Array.new(8, "nil")}
     #setup black pieces
     setup_board_pawns(1,"black")
-    black_row = ["C","B","Kn","Q","K","Kn","B","C"]
+    black_row = ["Castle","Bishop","Knight","Queen","King","Knight","Bishop","Castle"]
     setup_board_pieces(0, black_row,"black")
     #setup white pieces
     setup_board_pawns(6,"white")
-    white_row = ["C","B","Kn","K","Q","Kn","B","C"]
+    white_row = ["Castle","Bishop","Knight","King","Queen","Knigth","Bishop","Castle"]
     setup_board_pieces(7, white_row,"white")
   end
 
 
   def setup_board_pawns(row_num, color)
     @rows[row_num].each_index do |index|
-      self[row_num,index] = Piece.new("P",[row_num,index],color)
+      self[row_num,index] = Piece.new("Pawn",[row_num,index],color)
     end
   end
 
@@ -51,12 +54,16 @@ class Board
 end
 
 class Piece
-  def initialize(name, position, color)
+  def initialize(name, pos, color)
     @name = name
-    @pos = position
+    @pos = pos
     @color = color
+  end
+
+  def change_pos(pos)
+    @pos = pos
   end
 end
 
-# class NullPiece < Piece
-# end
+class NullPiece < Piece
+end
