@@ -33,14 +33,16 @@ class Board
     opponent_moves = []
     @rows.flatten.each do |piece|
       if piece.name != 'Null' && piece.color != color
-        opponent_moves << piece.moves
+        opponent_moves += piece.moves
       end
     end
-    puts opponent_moves
-    # # #see if any moves can strike the king
-    # opponent_moves.any? {|move| move == king_pos}
+    #see if any moves can strike the king
+    opponent_moves.any? {|move| move == king_pos}
   end
 
+  def checkmate?(color)
+    # in_check(color) && run through the board result of ever possible valid_moves of all your players if all of those scenarios are all in_check as well, then checkmate is true
+  end
 
   def [](row,column)
     @rows[row][column]
