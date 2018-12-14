@@ -9,6 +9,8 @@ module Stepable
 
     good_moves = moves.select do |pos|
       x,y = pos
+      print [self.name, self.color, self.pos, x, y]
+
       @board[x,y].color != self.color || @board[x,y].name == "Null"
     end
 
@@ -16,3 +18,6 @@ module Stepable
   end
 
 end
+
+#fix stepable module to only allow valid board moves
+#fix pawns so that they move based on which side of the board they are in 
