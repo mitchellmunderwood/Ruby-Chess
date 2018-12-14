@@ -19,6 +19,17 @@ class Board
     end_row, end_col = end_pos
     raise "no starting piece here" if self[start_row, start_col] == nil
     raise "can't place piece here" unless end_row.between?(0,7) && end_col.between?(0,7)
+
+    if self[start_row, start_col].valid_moves.include?(end_pos)
+      move_piece!(start_pos, end_pos)
+    else
+      raise "that moves is invalid, as it puts your king in check"
+    end
+  end
+
+  def move_piece!(start_pos, end_pos)
+    start_row, start_col = start_pos
+    end_row, end_col = end_pos
     start_piece = self[start_row, start_col]
     self[end_row, end_col] = start_piece
     self[start_row, start_col] = @sentinel
@@ -57,7 +68,7 @@ class Board
     rows.flatten.each do |piece|
       if piece.class != Null
         piece.class.new(new_board, piece.color, piece.name, piece.pos)
-      end 
+      end
     end
     new_board
   end
