@@ -1,26 +1,8 @@
-load 'board.rb'
-
-class Piece
-  attr_reader :name, :pos, :color, :deltas
-
-  def initialize(name, pos, color, board = nil)
-    @board = board
-    @name = name
-    @pos = pos
-    @color = color
-  end
-
-  def change_pos(pos)
-    @pos = pos
-  end
-
-  def moves
-    moves = @deltas.map do |delta|
-      x,y = pos
-      dx,dy = delta
-      [x+dx, y+dy]
-    end
-    moves.select {|pos| Board.valid_pos?(pos)}
-  end
-
-end
+require_relative 'pieces/bishop.rb'
+require_relative 'pieces/king.rb'
+require_relative 'pieces/knight.rb'
+require_relative 'pieces/null.rb'
+require_relative 'pieces/pawn.rb'
+require_relative 'pieces/piece.rb'
+require_relative 'pieces/queen.rb'
+require_relative 'pieces/rook.rb'

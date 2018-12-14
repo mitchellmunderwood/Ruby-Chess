@@ -1,4 +1,5 @@
 require 'byebug'
+require 'pieces'
 
 class Board
   attr_reader :rows
