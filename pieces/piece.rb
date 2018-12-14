@@ -1,5 +1,5 @@
 class Piece
-  attr_reader :name, :pos, :color, :deltas
+  attr_reader :board,:name, :pos, :color
 
   def initialize(board, color, name, pos)
     @board = board
@@ -12,8 +12,15 @@ class Piece
     @pos = pos
   end
 
-  def moves
-
+  def valid_moves
+    moves.reject { |end_pos| moves_into_check?(end_pos) }
   end
+
+  def moves_into_check?(end_pos)
+    test_board = board.dup
+    test_board.move_piece(pos,end_pos)
+    test_board.in_check?(color)
+  end
+
 
 end

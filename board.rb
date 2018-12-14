@@ -4,9 +4,9 @@ require_relative 'pieces'
 class Board
   attr_reader :rows, :sentinel
 
-  def initialize
+  def initialize(setup = true)
     @sentinel = Null.instance
-    setup_board
+    setup_board if setup
   end
 
   def self.valid_pos?(pos)
@@ -50,6 +50,14 @@ class Board
 
   def []=(row,column,value)
     @rows[row][column] = value
+  end
+
+  def dup
+    new_board = Board.new(false)
+    rows.flatten.each do |piece|
+      piece.class.new(new_board, piece.color, piece.name, piece.pos)
+    end
+    new_board
   end
 
   private
