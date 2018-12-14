@@ -40,26 +40,31 @@ class Board
     (2..5).each { |row| setup_board_nullpieces(row) }
     setup_board_pawns(1,"black")
     setup_board_pawns(6,"white")
-    # black_row = ["Rook","Bishop","Knight","Queen","King","Knight","Bishop","Rook"]
-    # setup_board_pieces(0, black_row,"black")
-    #setup white pieces
-
-    # white_row = ["Rook","Bishop","Knight","King","Queen","Knight","Bishop","Rook"]
-    # setup_board_pieces(7, white_row,"white")
-    #setup null pieces
+    setup_board_non_royals(0,"black")
+    setup_board_non_royals(7,"white")
+    setup_board_royals
 
   end
 
+  def setup_board_non_royals(row_num, color)
+    self[row_num,0] = Rook.new(self, color, 'Rook', [row_num,0])
+    self[row_num,1] = Knight.new(self, color, 'Knight', [row_num,1])
+    self[row_num,2] = Bishop.new(self, color, 'Bishop', [row_num,2])
+    self[row_num,5] = Bishop.new(self, color, 'Bishop', [row_num,5])
+    self[row_num,6] = Knight.new(self, color, 'Knight', [row_num,6])
+    self[row_num,7] = Rook.new(self, color, 'Rook', [row_num,7])
+  end
+
+  def setup_board_royals
+    self[0,4] = King.new(self, 'black', 'King', [0,4])
+    self[7,3] = King.new(self, 'white', 'King', [7,3])
+    self[0,3] = Queen.new(self, 'black', 'Queen', [0,3])
+    self[7,4] = Queen.new(self, 'white', 'Queen', [7,4])
+  end
 
   def setup_board_pawns(row_num, color)
     @rows[row_num].each_index do |index|
       self[row_num,index] = Pawn.new(self, color, "Pawn",[row_num,index])
-    end
-  end
-
-  def setup_board_pieces(row_num, pieces, color)
-    @rows[row_num].each_index do |index|
-      self[row_num, index] = pieces[index].constantize.new(self, color, pieces[index],[row_num,index])
     end
   end
 
