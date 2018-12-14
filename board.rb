@@ -21,7 +21,7 @@ class Board
     raise "can't place piece here" unless end_row.between?(0,7) && end_col.between?(0,7)
     start_piece = self[start_row, start_col]
     self[end_row, end_col] = start_piece
-    self[start_row, start_col] = "nil"
+    self[start_row, start_col] = @sentinel 
     start_piece.change_pos(end_pos)
   end
 

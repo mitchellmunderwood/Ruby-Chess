@@ -5,7 +5,7 @@ require 'colorize'
 
 SYMBOL_MAP = {
   "Pawn" => ' ♟ ',
-  "Castle" => ' ♜ ',
+  "Rook" => ' ♜ ',
   "Bishop" => ' ♝ ',
   "Knight" => ' ♞ ',
   "Queen" => ' ♛ ',
@@ -53,6 +53,7 @@ class Display
 
 end
 
+if $PROGRAM_NAME == __FILE__
 system "clear"
 display = Display.new(Board.new)
 display.render
@@ -62,3 +63,4 @@ while display.cursor.cursor_pos != [7,7]
   display.render
 end
 puts "the test is over"
+end 
