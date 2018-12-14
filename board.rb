@@ -6,7 +6,7 @@ class Board
 
   def initialize(setup = true)
     @sentinel = Null.instance
-    setup_board if setup
+    setup_board(setup)
   end
 
   def self.valid_pos?(pos)
@@ -55,16 +55,18 @@ class Board
   def dup
     new_board = Board.new(false)
     rows.flatten.each do |piece|
-      piece.class.new(new_board, piece.color, piece.name, piece.pos)
+      if piece.class != Null
+        piece.class.new(new_board, piece.color, piece.name, piece.pos)
+      end 
     end
     new_board
   end
 
   private
 
-  def setup_board
-    @rows = Array.new(8) {Array.new(8, "nil")}
-    (2..5).each { |row| setup_board_nullpieces(row) }
+  def setup_board(setup)
+    @rows = Array.new(8) {Array.new(8, @sentinel)}
+    return unless setup
     setup_board_pawns(1,"black")
     setup_board_pawns(6,"white")
     setup_board_pieces(0,"black")
@@ -88,9 +90,5 @@ class Board
     end
   end
 
-  def setup_board_nullpieces(row_num)
-      @rows[row_num].each_index do |index|
-        self[row_num, index] = self.sentinel
-      end
-  end
+
 end

@@ -6,6 +6,8 @@ class Piece
     @color = color
     @name = name
     @pos = pos
+
+    @board[pos.first,pos.last] = self
   end
 
   def change_pos(pos)
