@@ -1,10 +1,11 @@
 require 'byebug'
-require 'pieces'
+require_relative 'pieces'
 
 class Board
-  attr_reader :rows
+  attr_reader :rows, :sentinel
 
   def initialize
+    @sentinel = Null.instance
     setup_board
   end
 
@@ -36,34 +37,35 @@ class Board
 
   def setup_board
     @rows = Array.new(8) {Array.new(8, "nil")}
-    #setup black pieces
-    setup_board_pawns(1,"black")
-    black_row = ["Castle","Bishop","Knight","Queen","King","Knight","Bishop","Castle"]
-    setup_board_pieces(0, black_row,"black")
-    #setup white pieces
-    setup_board_pawns(6,"white")
-    white_row = ["Castle","Bishop","Knight","King","Queen","Knight","Bishop","Castle"]
-    setup_board_pieces(7, white_row,"white")
-    #setup null pieces
     (2..5).each { |row| setup_board_nullpieces(row) }
+    setup_board_pawns(1,"black")
+    setup_board_pawns(6,"white")
+    # black_row = ["Rook","Bishop","Knight","Queen","King","Knight","Bishop","Rook"]
+    # setup_board_pieces(0, black_row,"black")
+    #setup white pieces
+
+    # white_row = ["Rook","Bishop","Knight","King","Queen","Knight","Bishop","Rook"]
+    # setup_board_pieces(7, white_row,"white")
+    #setup null pieces
+
   end
 
 
   def setup_board_pawns(row_num, color)
     @rows[row_num].each_index do |index|
-      self[row_num,index] = Piece.new("Pawn",[row_num,index],color)
+      self[row_num,index] = Pawn.new(self, color, "Pawn",[row_num,index])
     end
   end
 
   def setup_board_pieces(row_num, pieces, color)
     @rows[row_num].each_index do |index|
-      self[row_num, index] = Piece.new(pieces[index],[row_num,index],color)
+      self[row_num, index] = pieces[index].constantize.new(self, color, pieces[index],[row_num,index])
     end
   end
 
   def setup_board_nullpieces(row_num)
       @rows[row_num].each_index do |index|
-        self[row_num, index] = NullPiece.instance
+        self[row_num, index] = self.sentinel
       end
   end
 end

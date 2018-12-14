@@ -1,6 +1,6 @@
-require 'board.rb'
-require 'cursor.rb'
-require 'pieces'
+require_relative 'board'
+require_relative 'cursor'
+require_relative 'pieces'
 require 'colorize'
 
 SYMBOL_MAP = {

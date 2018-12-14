@@ -1,13 +1,11 @@
-load 'board.rb'
-
 class Piece
   attr_reader :name, :pos, :color, :deltas
 
-  def initialize(name, pos, color, board = nil)
+  def initialize(board, color, name, pos)
     @board = board
+    @color = color
     @name = name
     @pos = pos
-    @color = color
   end
 
   def change_pos(pos)
