@@ -62,7 +62,7 @@ class Board
 
   def setup_board_nullpieces(row_num)
       @rows[row_num].each_index do |index|
-        self[row_num, index] = NullPiece.new("Null",[row_num,index], 'none')
+        self[row_num, index] = NullPiece.instance
       end
   end
 end

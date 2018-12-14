@@ -1,7 +1,12 @@
 load 'pieces.rb'
+require 'singleton'
 
 class NullPiece < Piece
-  def initialize(name, pos, color)
-    super
+  include Singleton
+
+  #only thing it seems the Nullpiece class inherits is the attr_reader
+  def initialize
+    @name = 'Null'
+    @color = nil
   end
 end
