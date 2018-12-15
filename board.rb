@@ -52,15 +52,9 @@ class Board
   end
 
   def checkmate?(color)
-    # in_check(color) && run through the board result of ever possible valid_moves of all your players if all of those scenarios are all in_check as well, then checkmate is true
-  end
-
-  def [](row,column)
-    @rows[row][column]
-  end
-
-  def []=(row,column,value)
-    @rows[row][column] = value
+    defending_players = @rows.flatten.select { |piece| piece.color == color}
+    no_valid_moves = defending_players.any? { |player| player.valid_moves}
+    no_valid_moves && in_check?(color)
   end
 
   def dup
@@ -72,6 +66,16 @@ class Board
     end
     new_board
   end
+
+  def [](row,column)
+    @rows[row][column]
+  end
+
+  def []=(row,column,value)
+    @rows[row][column] = value
+  end
+
+
 
   private
 

@@ -1,4 +1,4 @@
-load 'pieces.rb'
+require_relative 'piece'
 require 'singleton'
 
 class Null < Piece

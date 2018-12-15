@@ -15,11 +15,12 @@ SYMBOL_MAP = {
 
 
 class Display
-  attr_reader :board, :cursor
+  attr_reader :board, :cursor, :notifications
 
   def initialize(board)
     @board = board
     @cursor = Cursor.new([0,0], board)
+    @notifications = {}
   end
 
   #render a dynamic board with cursor movement and updates
@@ -27,6 +28,8 @@ class Display
 
 
   def render
+    system "clear"
+    puts "Arrow keys, WASD, or vim to move, space or enter to confirm."
     @board.rows.each_index do |row_ind|
       @board.rows[row_ind].each_index do |square_ind|
         #get the right char from the symbol map
@@ -51,6 +54,18 @@ class Display
     return nil
   end
 
+  def set_check!
+    @notification[:check] = "Check!"
+  end
+
+  def uncheck!
+    @notification.delete(:check)
+  end
+
+  def reset!
+    @notifications.delete(:error)
+  end
+
 end
 
 if $PROGRAM_NAME == __FILE__
@@ -63,4 +78,4 @@ while display.cursor.cursor_pos != [7,7]
   display.render
 end
 puts "the test is over"
-end 
+end

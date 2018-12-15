@@ -40,42 +40,26 @@ class Cursor
     @selected = false
   end
 
+  def toggle
+    @selected = !selected
+  end
+
   def get_input
     key = KEYMAP[read_char]
     handle_key(key)
   end
 
-
-
   def read_char
     STDIN.echo = false
-    # stops the console from printing return values
-
     STDIN.raw!
-    # in raw mode data is given as is to the program--the system
-    # doesn't preprocess special characters such as control-c
-
     input = STDIN.getc.chr
-    # STDIN.getc reads a one-character string as a
-    # numeric keycode. chr returns a string of the
-    # character represented by the keycode.
-    # (e.g. 65.chr => "A")
-
     if input == "\e" then
       input << STDIN.read_nonblock(3) rescue nil
-      # read_nonblock(maxlen) reads
-      # at most maxlen bytes from a
-      # data stream; it's nonblocking,
-      # meaning the method executes
-      # asynchronously; it raises an
-      # error if no data is available,
-      # hence the need for rescue
-
       input << STDIN.read_nonblock(2) rescue nil
     end
 
-    STDIN.echo = true # the console prints return values again
-    STDIN.cooked! # the opposite of raw mode :)
+    STDIN.echo = true
+    STDIN.cooked!
 
     return input
   end
@@ -83,12 +67,11 @@ class Cursor
   def handle_key(key)
     case key
     when :return, :space
-      @cursor_pos
-      @selected = true
+      toggle
+      cursor_pos
     when :left, :right, :up, :down
       diff = MOVES[key]
-      new_pos = [@cursor_pos[0]+diff[0], @cursor_pos[1] + diff[1]]
-      update_pos(diff) if Board.valid_pos?(new_pos)
+      update_pos(diff)
       nil
     when :ctrl_c
       Process.exit(0)
@@ -96,12 +79,11 @@ class Cursor
 
   end
 
-#handle_key(key) method. Use a case statement that switches on the value of key. Depending on the key, #handle_key(key) will a) return the @cursor_pos (in case of :return or :space), b) call #update_pos with the appropriate movement difference from MOVES and return nil (in case of :left, :right, :up, and :down), or c) exit from the terminal process (in case of :ctrl_c). Later we will use our Player and Game classes to handle the movement of pieces.
-
   def update_pos(diff)
     dx,dy = diff
     x,y = @cursor_pos
-    @cursor_pos = [x+dx,y+dy]
+    new_pos = [x+dx,y+dy]
+    @cursor_pos = new_pos if Board.valid_pos?(new_pos)
   end
 
 end
