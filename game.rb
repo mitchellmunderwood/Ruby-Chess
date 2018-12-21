@@ -22,17 +22,16 @@ class Game
         @display.notifications[:error] = e.message
         retry
       end
-      display.render
-     puts "#{@player[current_player].color} is checkmated."
-     nil
     end
-
+    display.render
+    puts "#{@players[current_player].color} is checkmated."
+    nil
   end
 
   private
 
   def notify_players
-    if board.in_check?(@players[current_player])
+    if board.in_check?(@players[current_player].color)
       display.set_check!
     else
       display.uncheck!

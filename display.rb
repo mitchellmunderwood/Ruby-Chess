@@ -56,11 +56,11 @@ class Display
   end
 
   def set_check!
-    @notification[:check] = "Check!"
+    @notifications[:check] = "Check!"
   end
 
   def uncheck!
-    @notification.delete(:check)
+    @notifications.delete(:check)
   end
 
   def reset!

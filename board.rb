@@ -61,12 +61,16 @@ class Board
 
   def dup
     new_board = Board.new(false)
-    rows.flatten.each do |piece|
+    pieces.each do |piece|
       # if piece.class != Null
         piece.class.new(new_board, piece.color, piece.name, piece.pos)
 
     end
     new_board
+  end
+
+  def pieces
+    @rows.flatten.reject(&:empty?)
   end
 
   def [](row,column)

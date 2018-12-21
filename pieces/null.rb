@@ -9,4 +9,9 @@ class Null < Piece
     @name = 'Null'
     @color = nil
   end
+
+  def empty?
+    true
+  end
+
 end

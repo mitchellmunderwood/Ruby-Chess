@@ -24,5 +24,9 @@ class Piece
     test_board.in_check?(color)
   end
 
+    def empty?
+      false
+    end
+
 
 end
