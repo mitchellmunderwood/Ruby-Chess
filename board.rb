@@ -43,20 +43,25 @@ class Board
     king = @rows.flatten.select { |piece| piece.name == 'King' && piece.color == color}.first
     king_pos = king.pos
     #get all opponents possible moves
-    opponent_moves = []
-    @rows.flatten.each do |piece|
-      if piece.name != 'Null' && piece.color != color
-        opponent_moves += piece.moves
-      end
+    # opponent_moves = []
+    # pieces.each do |piece|
+    #   if piece.name != 'Null' && piece.color != color
+    #     opponent_moves += piece.moves
+    #   end
+    # end
+    # #see if any moves can strike the king
+    # opponent_moves.any? {|move| move == king_pos}
+    pieces.any? do |piece|
+      piece.color != color && piece.moves.include?(king_pos)
     end
-    #see if any moves can strike the king
-    opponent_moves.any? {|move| move == king_pos}
+
+
   end
 
   def checkmate?(color)
-    defending_players = @rows.flatten.select { |piece| piece.color == color}
-    no_valid_moves = defending_players.any? { |player| player.valid_moves}
-    no_valid_moves && in_check?(color)
+    return false unless in_check?(color)
+    defending_players = pieces.select { |piece| piece.color == color}
+    defending_players.all? { |player| player.valid_moves.empty?}
   end
 
   def dup
