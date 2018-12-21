@@ -62,9 +62,9 @@ class Board
   def dup
     new_board = Board.new(false)
     rows.flatten.each do |piece|
-      if piece.class != Null
+      # if piece.class != Null
         piece.class.new(new_board, piece.color, piece.name, piece.pos)
-      end
+
     end
     new_board
   end
