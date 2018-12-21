@@ -12,17 +12,17 @@ class Game
   end
 
   def play
-    puts "this"
     until board.checkmate?('white') || board.checkmate?('black')
       begin
        start_pos, end_pos = @players[current_player].make_move(board)
-       board.move_piece(start_pos, end_pos)
+       board.move_piece(start_pos, end_pos, @players[current_player].color)
        swap_turn!
        notify_players
       rescue StandardError => e
         @display.notifications[:error] = e.message
         retry
       end
+      display.render
      puts "#{@player[current_player].color} is checkmated."
      nil
     end
@@ -46,6 +46,6 @@ class Game
 
 end
 
-if @PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
   Game.new.play
 end

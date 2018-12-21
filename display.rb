@@ -15,17 +15,14 @@ SYMBOL_MAP = {
 
 
 class Display
-  attr_reader :board, :cursor, :notifications
+  attr_reader :board, :cursor
+  attr_accessor :notifications
 
   def initialize(board)
     @board = board
     @cursor = Cursor.new([0,0], board)
     @notifications = {}
   end
-
-  #render a dynamic board with cursor movement and updates
-  #render a dynamic board with cursor constraints
-
 
   def render
     system "clear"
@@ -51,6 +48,10 @@ class Display
       end
       print "\n"
     end
+    @notifications.each do |_key, val|
+      puts val
+    end
+
     return nil
   end
 
@@ -68,14 +69,14 @@ class Display
 
 end
 
-if $PROGRAM_NAME == __FILE__
-system "clear"
-display = Display.new(Board.new)
-display.render
-while display.cursor.cursor_pos != [7,7]
-  display.cursor.get_input
-  system "clear"
-  display.render
-end
-puts "the test is over"
-end
+# if $PROGRAM_NAME == __FILE__
+# system "clear"
+# display = Display.new(Board.new)
+# display.render
+# while display.cursor.cursor_pos != [7,7]
+#   display.cursor.get_input
+#   system "clear"
+#   display.render
+# end
+# puts "the test is over"
+# end

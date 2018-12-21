@@ -14,10 +14,12 @@ class Board
     x.between?(0,7) && y.between?(0,7) ? true : false
   end
 
-  def move_piece(start_pos, end_pos)
+  def move_piece(start_pos, end_pos, color)
+
     start_row, start_col = start_pos
     end_row, end_col = end_pos
-    raise "no starting piece here" if self[start_row, start_col] == nil
+    raise "no starting piece here" if self[start_row, start_col].class == Null
+    raise "you must move your own piece" if self[start_row, start_col].color != color
     raise "can't place piece here" unless end_row.between?(0,7) && end_col.between?(0,7)
 
     if self[start_row, start_col].valid_moves.include?(end_pos)
